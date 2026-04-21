@@ -1,95 +1,131 @@
-# NeuroVision AI - Image Classification System
+# NeuroVision AI Extreme 🧠👁️
 
-A production-grade, visually stunning deep learning web application built with PyTorch, FastAPI, and React. NeuroVision uses ResNet and MobileNet architectures to classify images (trained on CIFAR-10) and provides real-time Explainable AI insights via Grad-CAM.
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
+![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688.svg?logo=fastapi)
+![React](https://img.shields.io/badge/React-18.x-61DAFB.svg?logo=react)
+![PyTorch](https://img.shields.io/badge/PyTorch-2.x-EE4C2C.svg?logo=pytorch)
 
-![NeuroVision UI](https://via.placeholder.com/800x450.png?text=NeuroVision+AI+Glassmorphism+UI)
-
-## 🚀 Features
-- **Transfer Learning ML Pipeline**: Code to fine-tune ResNet18 and MobileNetV2 on CIFAR-10.
-- **Explainable AI (Grad-CAM)**: Heatmaps explaining which regions influenced the prediction.
-- **Real-Time Predictions**: Instant classification via Drag & Drop or Live Webcam.
-- **Model Comparison Panel**: Compare ResNet and MobileNet side-by-side (Latency, Confidence).
-- **Interactive Analytics Dashboard**: Training curves and dataset distribution.
-- **Premium Aesthetics**: Glassmorphism UI, Dark Mode, Smooth Animations (React + Vite).
+A production-ready, full-stack deep learning platform for real-time image classification and model explainability. Experience real-time inference, multi-method explainability (Grad-CAM & Saliency Maps), and adversarial robustness testing, all wrapped in a stunning, high-performance **Framer Motion** glassmorphic UI.
 
 ---
 
-## 🛠️ Tech Stack
-- **Backend**: Python, FastAPI, PyTorch, TorchVision, OpenCV
-- **Frontend**: React, Vite, Vanilla CSS (Glassmorphism), Recharts, Lucide React
-- **Dataset**: CIFAR-10
+## 🌟 Key Features
+
+### 🚀 Cutting-Edge Machine Learning
+- **Multi-Architecture Support**: Compare inferences between **ResNet-18** (Accuracy), **MobileNetV2** (Edge Performance), and **Vision Transformer (ViT-B/16)** (State-of-the-art spatial attention).
+- **Extreme Explainability**: Peer into the "black box" using dual-explainability visualization:
+  - **Grad-CAM**: Class Activation Maps showing regional importance.
+  - **Saliency Maps**: Pixel-level gradient maps highlighting the exact features driving predictions.
+- **Adversarial Robustness Tester**: A live UI slider to inject controlled static noise into images to evaluate model confidence drops and architectural resilience.
+
+### 💻 Premium User Experience
+- **Fluid UI**: Seamless page transitions and micro-animations powered by **Framer Motion**.
+- **Live System HUD**: Real-time FPS and latency tracking.
+- **In-Browser Image Editing**: Crop images perfectly before inference using `react-image-crop`.
+- **Text-to-Speech (TTS)**: High-confidence predictions are audibly announced.
+- **Prediction History & Export**: All sessions are saved locally with visual heatmaps and can be exported as `.csv` data logs.
+
+### 🏗️ Enterprise Architecture
+- **Dockerized**: Unified `docker-compose.yml` for instant, isolated cluster deployment.
+- **FastAPI Backend**: Asynchronous inference pipeline served via Uvicorn/Gunicorn.
+- **Automated Testing**: 100% core endpoint coverage via `pytest`.
 
 ---
 
-## ⚙️ Setup Instructions
+## ⚙️ Quick Start (Docker)
 
-### 1. Backend (FastAPI & PyTorch)
+The absolute fastest way to get started is using Docker Compose.
 
-Navigate to the root project directory and set up your Python environment:
+1. Ensure Docker Desktop is running.
+2. Clone the repository:
+   ```bash
+   git clone https://github.com/Skandamrao/neurovision-ai.git
+   cd neurovision-ai
+   ```
+3. Build and launch the cluster:
+   ```bash
+   docker-compose up --build
+   ```
+4. Access the application:
+   - **Frontend UI**: [http://localhost:5173](http://localhost:5173)
+   - **Backend API Docs**: [http://localhost:8000/docs](http://localhost:8000/docs)
 
+---
+
+## 🛠️ Local Development Setup
+
+If you wish to run the app manually for development purposes without Docker:
+
+### 1. Backend (FastAPI + PyTorch)
 ```bash
-# Create virtual environment
+# Navigate to the root directory
 python -m venv venv
 
-# Activate venv (Windows)
+# Activate Virtual Environment
+# On Windows:
 .\venv\Scripts\activate
-# Activate venv (Mac/Linux)
+# On Mac/Linux:
 source venv/bin/activate
 
-# Install dependencies
+# Install Dependencies
+pip install -r api/requirements.txt
+
+# Start Server
 cd api
-pip install -r requirements.txt
-```
-
-#### Train the Models (Optional but Recommended)
-The API anticipates the presence of saved `.pth` files. To generate them quickly using 1 epoch:
-```bash
-cd ../ml
-python train.py --model resnet --epochs 1
-python train.py --model mobilenet --epochs 1
-```
-
-#### Start the API Server
-```bash
-cd ../api
 uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
-The API is now running at `http://localhost:8000`.
 
-### 2. Frontend (React + Vite)
-Open a new terminal window to start the frontend:
-
+### 2. Frontend (Vite + React)
+Open a new terminal window:
 ```bash
 cd frontend
 
-# Install Node dependencies
+# Install Node modules
 npm install
 
-# Start the dev server
+# Start Dev Server
 npm run dev
 ```
 
-The frontend will run at `http://localhost:5173`.
+---
+
+## 🧪 Running Tests
+
+The backend uses `pytest` to validate API integrity. With the virtual environment active:
+```bash
+pytest tests/
+```
 
 ---
 
-## 🚀 Deployment
+## 📁 Directory Structure
 
-### Option 1: Docker Compose (Unified Deployment)
-You can containerize both the backend and frontend.
-
-1. Create a `Dockerfile` for the backend ensuring `torch` and `fastapi` are installed.
-2. Create a `Dockerfile` for the frontend running a static server (like `nginx`) serving the output of `npm run build`.
-3. Orchestrate with `docker-compose.yml`.
-
-### Option 2: Cloud Deployment
-- **Frontend**: Deploy the output of `cd frontend && npm run build` to **Vercel**, **Netlify**, or **GitHub Pages**. Ensure you configure environment variables to point to your cloud backend URL.
-- **Backend API**: Deploy the `/api` and `/ml` modules to **Render**, **Railway**, or **AWS EC2** using Docker or standard Python buildpacks.
+```text
+neurovision-ai/
+├── api/                    # FastAPI Backend
+│   ├── main.py             # Inference & Server logic
+│   ├── requirements.txt
+│   └── Dockerfile
+├── frontend/               # React + Vite Frontend
+│   ├── src/                # UI Components (Framer Motion, Recharts)
+│   ├── Dockerfile
+│   └── nginx.conf          # Prod proxy configuration
+├── ml/                     # Machine Learning Logic
+│   ├── models.py           # PyTorch architecture definitions (ViT, ResNet)
+│   ├── gradcam.py          # Explainability logic
+│   └── train.py            # Local training scripts
+├── models/                 # Saved `.pth` weight files
+├── tests/                  # Pytest integration tests
+├── docker-compose.yml      # Orchestrator
+└── README.md
+```
 
 ---
 
-## 🧠 File Structure Overview
-- `/ml/`: Core PyTorch dataloaders, model architectures, Grad-CAM, and training logic.
-- `/api/`: FastAPI web server and inference endpoints.
-- `/models/`: Directory where trained `.pth` files are stored.
-- `/frontend/`: React components and Glassmorphism CSS design system.
+## 🤝 Contributing
+Contributions, issues, and feature requests are welcome! 
+Feel free to check [issues page](https://github.com/Skandamrao/neurovision-ai/issues).
+
+## 📝 License
+This project is [MIT](https://choosealicense.com/licenses/mit/) licensed.
